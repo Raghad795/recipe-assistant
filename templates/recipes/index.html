@@ -1,0 +1,41 @@
+{% load static %}
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f5ef">
+  <title>مذاق | مساعد الوصفات</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'recipes/app.css' %}">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="مذاق، الصفحة الرئيسية"><span class="brand-mark">م</span><span>مذاق<span class="brand-dot">.</span></span></a>
+    <nav class="nav-links" aria-label="التنقل الرئيسي"><a class="nav-link active" href="#search">اكتشف وصفة</a><a class="nav-link" href="#results">الوصفات</a></nav>
+    <button class="saved-button" id="savedToggle" type="button"><span aria-hidden="true">♡</span><span>المحفوظة</span><b id="savedCount">0</b></button>
+  </header>
+  <main>
+    <section class="hero" id="search">
+      <div class="hero-copy"><div class="eyebrow"><span class="eyebrow-icon">✳</span> طبخ أذكى، كل يوم</div><h1>وش موجود في<br><span>ثلاجتك اليوم؟</span></h1><p class="hero-description">اكتب المكونات اللي عندك، ونلقى لك وصفات لذيذة تناسبها. لا تخلي أي مكوّن يضيع.</p><div class="hero-proof"><div class="proof-avatars"><i>🥑</i><i>🍅</i><i>🥕</i></div><span>وصفات بسيطة من مكوناتك اليومية</span></div></div>
+      <div class="hero-art" aria-hidden="true"><div class="art-sun"></div><div class="art-leaf leaf-one">✦</div><div class="art-leaf leaf-two">✦</div><div class="plate"><div class="plate-inner"><span class="food food-one">🥗</span><span class="food food-two">🍅</span><span class="food food-three">🥑</span><span class="food food-four">🫒</span><span class="food food-five">🌿</span></div></div><div class="art-note"><span>طازج ولذيذ</span><b>♡</b></div><div class="art-spark spark-one">✳</div><div class="art-spark spark-two">✦</div></div>
+    </section>
+    <section class="search-panel" aria-labelledby="search-title">
+      <div class="search-heading"><div><span class="section-kicker">خلّنا نبدأ</span><h2 id="search-title">إيش عندك بالمطبخ؟</h2></div><span class="step-badge"><b>01</b> البحث عن وصفة</span></div>
+      <form id="searchForm"><label class="input-label" for="ingredientInput">أضف المكونات، وافصل بينها بفاصلة</label><div class="ingredient-entry"><span class="input-icon" aria-hidden="true">⌕</span><input id="ingredientInput" type="text" placeholder="مثال: دجاج، أرز، طماطم..." autocomplete="off"><button class="search-submit" type="submit"><span>ابحث عن وصفات</span><span aria-hidden="true">←</span></button></div>
+        <div class="quick-row"><span class="quick-label">جرّب:</span><button class="quick-chip" type="button" data-value="دجاج، أرز، بصل، طماطم، ثوم">🍗 دجاج وأرز</button><button class="quick-chip" type="button" data-value="بيض، طماطم، بصل، فلفل رومي">🍳 فطور سريع</button><button class="quick-chip" type="button" data-value="طماطم، ثوم، معكرونة، بصل">🍝 معكرونة</button></div>
+        <div class="search-options"><label for="threshold">أقل نسبة تطابق <strong id="thresholdValue">30%</strong></label><input id="threshold" type="range" min="0" max="100" value="30"><span class="options-note">نسبة أعلى تعني مكونات أكثر متوفرة</span></div>
+      </form>
+    </section>
+    <section class="results-section" id="results" aria-live="polite"><div class="results-heading"><div><span class="section-kicker">اقتراحاتنا لك</span><h2 id="resultsTitle">وصفات تناسب يومك</h2></div><div class="results-meta" id="resultsMeta"></div></div>
+      <div class="state-card welcome-state" id="welcomeState"><div class="state-illustration">🥘</div><div><h3>خلّنا نطبخ شي لذيذ</h3><p>أضف مكوناتك بالأعلى، وبنقترح عليك وصفات تناسب الموجود عندك.</p></div></div><div class="recipe-grid" id="recipeGrid"></div>
+      <div class="empty-state hidden" id="emptyState"><span>🧺</span><h3>ما لقينا وصفة مناسبة للحين</h3><p>جرّب تضيف مكونات أكثر، أو قلّل نسبة التطابق المطلوبة.</p><button class="text-button" id="lowerThreshold" type="button">خفّض نسبة التطابق</button></div><div class="loading-state hidden" id="loadingState"><span class="loader"></span><p>نبحث عن شيء لذيذ...</p></div>
+    </section>
+  </main>
+  <footer class="footer"><a class="brand footer-brand" href="/"><span class="brand-mark">م</span><span>مذاق<span class="brand-dot">.</span></span></a><span>أفكار لذيذة تبدأ من مطبخك.</span><span class="footer-credit">صُنع بحب للطباخين المنزليين <b>♥</b></span></footer>
+  <dialog class="recipe-dialog" id="recipeDialog"><button class="dialog-close" id="dialogClose" aria-label="إغلاق" type="button">×</button><div id="dialogContent"></div></dialog><div class="toast" id="toast" role="status"></div>
+  <script src="{% static 'recipes/app.js' %}" defer></script>
+</body>
+</html>
